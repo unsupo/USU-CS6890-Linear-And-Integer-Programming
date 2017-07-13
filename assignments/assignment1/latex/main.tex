@@ -1,0 +1,322 @@
+\documentclass[11pt,a4paper,openany]{report}
+
+\title{CS6890 HW01}
+\author{Jonathan Arndt }
+\date{July 10 2017}
+
+\usepackage{amsmath,mathtools}
+\usepackage{systeme}
+\usepackage[utf8]{inputenc}
+\usepackage{newunicodechar}
+\usepackage{amsmath}
+
+
+%% the first is the “unknown minus” (U+2212), the second is a hyphen
+\newunicodechar{−}{-}
+
+\newenvironment{sysmatrix}[1]
+ {\left(\begin{array}{@{}#1@{}}}
+ {\end{array}\right)}
+\newcommand{\ro}[1]{%
+  \xrightarrow{\mathmakebox[\rowidth]{#1}}%
+}
+\newlength{\rowidth}% row operation width
+\AtBeginDocument{\setlength{\rowidth}{3em}}
+
+\begin{document}
+
+\maketitle
+
+\section{Problem 1}
+Solve the linear system with the Gauss method
+
+\[
+\systeme*{
+x_1 − 2x_2 + x_3 −x_4 = 4, 
+2x_1 −3x_2 + 2x_3 −3x_4 = −1, 
+3x_1 −5x_2 + 3x_3 −4x_4 = 3, 
+−x_1 + x_2 − x_3 + 2x_4 = 5
+}
+\]
+
+
+\begin{alignat*}{2}
+\begin{sysmatrix}{rrrr|r}
+    1 & -2 & 1 & -1 & 4 \\
+    2 & -3 & 2 & -3 & -1 \\
+    3 & -5 & 3 & -4 & 3 \\
+    -1 & 1 & -1 & 2 & 5 \\
+\end{sysmatrix}
+&\!\begin{aligned}
+&\ro{-2r_1+r_2->r_2}\\
+&\ro{-3r_1+r_3->r_3}\\
+&\ro{r_1+r_4->r_4}
+\end{aligned}
+\begin{sysmatrix}{rrrr|r}
+    1 & -2 & 1 & -1 & 4 \\
+    0 & 1 & 0 & -1 & -9 \\
+    0 & 1 & 0 & -1 & -9 \\
+    0 & -1 & 0 & 1 & 9 \\
+\end{sysmatrix}
+&\!\begin{aligned}
+&\ro{-r_2+r_3->r_3}\\
+&\ro{r_2+r_4->r_4}\\
+&\ro{r_1-r_2->r_1}
+\end{aligned}
+\begin{sysmatrix}{rrrr|r}
+    1 & -3 & 1 & 0 & 13 \\
+    0 & 1 & 0 & -1 & -9 \\
+    0 & 0 & 0 & 0 & 0 \\
+    0 & 0 & 0 & 0 & 0 \\
+\end{sysmatrix}
+\end{alignat*}
+\\
+\[
+\systeme*{
+x_1 − 3x_2 + x_3 = 13, 
+x_2 − x_4 = −9
+}
+\]
+\newpage
+\section{Problem 2}
+Find the inverse of the matrix if it exists.
+\\
+
+\begin{bmatrix} 
+1 & 0 & 1 & -1 \\
+0 & -1 & -3 & 4 \\
+1 & 0 & -1 & 2 \\
+-3 & 0 & 0 & -1 \\
+\end{bmatrix}
+\\\\
+determinate = 1
+\\
+Thus inverse exists.
+\begin{alignat*}{2}
+\begin{sysmatrix}{rrrr|rrrr}
+1 & 0 & 1 & -1 & 1 & 0 & 0 & 0\\
+0 & -1 & -3 & 4 & 0 & 1 & 0 & 0 \\
+1 & 0 & -1 & 2 & 0 & 0 & 1 & 0 \\
+-3 & 0 & 0 & -1 & 0 & 0 & 0 & 1 \\
+\end{sysmatrix}
+\end{alignat*}
+\\\\
+Row reduce until identity is swapped
+
+\begin{alignat*}{2}
+\begin{sysmatrix}{rrrr|rrrr}
+1 & 0 & 0 & 0 & -1 & 0 & -1 & -1\\
+0 & 1 & 0 & 0 & -3 & -1 & 0 & -1 \\
+0 & 0 & 1 & 0 & 5 & 0 & 4 & 3 \\
+0 & 0 & 0 & 1 & 3 & 0 & 4 & 2 \\
+\end{sysmatrix}
+\end{alignat*}
+
+Thus identity is\\\\
+\begin{bmatrix} 
+-1 & 0 & -1 & -1\\
+-3 & -1 & 0 & -1 \\
+5 & 0 & 4 & 3 \\
+3 & 0 & 4 & 2 \\
+\end{bmatrix}
+\newpage
+
+\section{Problem 3}
+Let \[
+A^{-1}=
+\begin{bmatrix} 
+1 & 2 & 1\\
+0 & 3 & 1 \\
+4 & 1 & 2 \\
+\end{bmatrix}
+\]
+if Possible find a matrix C such that \[
+ACA=
+\begin{bmatrix} 
+2 & 1 & 3\\
+-1 & 2 & 2 \\
+2 & 1 & 4 \\
+\end{bmatrix}
+\]
+\[C=A^{-1}(ACA)A^{-1}\]
+\[
+C=
+\begin{bmatrix} 
+1 & 2 & 1\\
+0 & 3 & 1 \\
+4 & 1 & 2 \\
+\end{bmatrix}
+*
+\begin{bmatrix} 
+2 & 1 & 3\\
+-1 & 2 & 2 \\
+2 & 1 & 4 \\
+\end{bmatrix}
+*
+\begin{bmatrix} 
+1 & 2 & 1\\
+0 & 3 & 1 \\
+4 & 1 & 2 \\
+\end{bmatrix}
+\]
+\[
+C=
+\begin{bmatrix} 
+2 & 6 & 11\\
+-1 & 7 & 10 \\
+11 & 8 & 22 \\
+\end{bmatrix}
+*
+\begin{bmatrix} 
+1 & 2 & 1\\
+0 & 3 & 1 \\
+4 & 1 & 2 \\
+\end{bmatrix}
+\]
+\[
+C=
+\begin{bmatrix} 
+46 & 33 & 30\\
+39 & 29 & 26 \\
+99 & 68 & 63 \\
+\end{bmatrix}
+\]
+
+\section{Problem 4}
+Determine if the set of all invertible 4x4 matrices is closed under addition
+and scalar multiplication.
+
+\section{Problem 5}
+Determine if b = (7, 6, 1) lies in sp(v1, v2, v3), where v1 = (1, 2, 3), v2 =
+(−2, −5, 2), and v3 = (1, 2, −1).
+\begin{alignat*}{2}
+\begin{sysmatrix}{rrr|r}
+1 & -2 & 1 & 7\\
+2 & -5 & 2 & 6\\
+3 & 2 & -1 & 1\\
+\end{sysmatrix}
+\end{alignat*}
+Row reduction results in
+\begin{alignat*}{2}
+\begin{sysmatrix}{rrr|r}
+1 & 0 & 0 & 1\\
+0 & 1 & 0 & 0\\
+0 & 0 & 1 & 2\\
+\end{sysmatrix}
+\end{alignat*}
+Thus b lies in sp(v1,v2,v3)
+
+
+
+\newpage
+\section{Problem 6}
+Let v1 = (1, 3, 4), v2 = (2, 7, 2), and v3 = (−1, 2, 1). Determine if sp(v1, v2, v3) = R3
+\begin{alignat*}{2}
+\begin{sysmatrix}{rrr}
+1 & 3 & 4\\
+2 & 7 & 2\\
+-1 & 2 & 1\\
+\end{sysmatrix}
+\end{alignat*}
+Row reduction yields
+\begin{alignat*}{2}
+\begin{sysmatrix}{rrr}
+1 & 0 & 0\\
+0 & 1 & 0\\
+0 & 0 & 1\\
+\end{sysmatrix}
+\end{alignat*}
+Thus these vectors are in R3
+
+\section{Problem 7}
+Determine if \{(1, 4, −1, 3),(−1, 5, 6, 2),(1, 13, 4, 7)\} is dependent or independent
+in R4.
+\begin{alignat*}{2}
+\begin{sysmatrix}{rrr|r}
+1 & -1 & 1 & 0\\
+4 & 5 & 13 & 0\\
+-1 & 6 & 4 & 0\\
+3 & 2 & 7 & 0\\
+\end{sysmatrix}
+\end{alignat*}
+Row reduction yields
+\begin{bmatrix} 
+1 & 0 & 0\\
+0 & 1 & 0 \\
+0 & 0 & 1 \\
+0 & 0 & 0
+\end{bmatrix}
+Since this contains only trivial solutions ie, \[c_1,c_2,c_3=0\] then that makes this set linearly independent.
+\newpage
+\section{Problem 8}
+Find a basic for the nullspace of A, where
+\[A=
+\begin{bmatrix} 
+3 & 1 & 9\\
+1 & 2 & -2 \\
+2 & 1 & 5 \\
+\end{bmatrix}
+\]
+Row reduce to
+\[A=
+\begin{bmatrix} 
+1 & 0 & 4\\
+0 & 1 & -3 \\
+0 & 0 & 0 \\
+\end{bmatrix}
+\]
+The system has infinitely many solutions since row 3 is all zeros.
+\[
+\systeme*{
+x_1+4x_3=0,
+x_2-3x_3=0,
+0=0
+}
+\]
+Thus the null space has a basis formed by this set
+\[ 
+\left \{
+  \begin{tabular}{c}
+  -4\\
+  3\\
+  1
+  \end{tabular}
+\right \}
+\]
+
+
+\section{Problem 9}
+Find a basis for the column space of A, where
+\[A=
+\begin{bmatrix} 
+1 & -2 & 2 & -1\\
+-3 & 6 & 1 & 10 \\
+1 & -2 & -4 & -7 \\
+\end{bmatrix}
+\]
+Row Reducing this matrix gives
+\[A=
+\begin{bmatrix} 
+1 & -2 & 0 & 3\\
+0 & 0 & 1 & 1 \\
+0 & 0 & 0 & 0 \\
+\end{bmatrix}
+\]
+This implies that 
+\[<1,-2,0,3> and <0,0,1,1>\]
+Forms the basis of the column space of A
+
+\section{Problem 10}
+Compute det(A), where
+\[A=
+\begin{bmatrix} 
+3 & 2 & 4\\
+0 & 1 & 2 \\
+1 & 4 & 1 \\
+\end{bmatrix}
+\]
+The determinate is = -21
+
+
+\end{document}
+

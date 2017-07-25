@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Linear-And-Integer-Programming/Linear-And-Integer-Programming.iml" filepath="$PROJECT_DIR$/Linear-And-Integer-Programming/Linear-And-Integer-Programming.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/USU-CS6890-Linear-And-Integer-Programming.iml" filepath="$PROJECT_DIR$/.idea/USU-CS6890-Linear-And-Integer-Programming.iml" />
     </modules>
   </component>

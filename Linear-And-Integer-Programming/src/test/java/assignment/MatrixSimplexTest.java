@@ -1,6 +1,7 @@
-package assignment3;
+package assignment;
 
 
+import assignment.MatrixSimplex;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -81,7 +82,7 @@ public class MatrixSimplexTest {
                 });
     }
     @Test
-    public void testSolutionToTableau(){
+    public void testSolutionToTableau() throws Exception {
         double[][] tableau = new double[][]{
                 {2,3,2,1,0,0,1000},
                 {1,1,2,0,1,0,800},
@@ -118,5 +119,53 @@ public class MatrixSimplexTest {
                     {1,1,2,0,1,0}
             },new int[]{1000,800},
                     new int[]{-7,-8,-10,0,0,1}).doSimplex();
+    }
+
+    @Test public void testNoSolution(){
+        //if pivotColumn contains all 0s or negatives then no solution
+        //test all 0s
+        assertTrue(MatrixSimplex.isNoSolution(new double[][]{
+                {2,3,2,0,0,0,1000},
+                {1,1,2,0,1,0,800},
+                {-7,-8,-10,0,0,1,0}
+        },3));
+        //test all negatives
+        assertTrue(MatrixSimplex.isNoSolution(new double[][]{
+                {-2,3,2,1,0,0,1000},
+                {-1,1,-2,0,1,0,800},
+                {-7,-8,-10,0,0,1,0}
+        },0));
+        //test combo of 0s and negatives
+        assertTrue(MatrixSimplex.isNoSolution(new double[][]{
+                {-2,3,2,1,0,0,1000},
+                {0,1,-2,0,1,0,800},
+                {-7,-8,-10,0,0,1,0}
+        },0));
+        //test it has a solution
+        assertFalse(MatrixSimplex.isNoSolution(new double[][]{
+                {2,3,2,1,0,0,1000},
+                {1,1,-2,0,1,0,800},
+                {-7,-8,-10,0,0,1,0}
+        },0));
+    }
+
+    @Test public void testNoSolutionRepeatMatrix(){
+        try{
+            MatrixSimplex.solveSimplexTableau(
+                    new double[][]{
+                            {-1,-1,1,0,0,0,-3},
+                            {-3,1,0,1,0,0,1},
+                            {1,0,0,0,1,0,2},
+                            {0,1,0,0,0,1,2},
+                            {-3,-1,0,0,0,0,0}
+                    }
+            );
+            assertFalse(true);
+        }catch (Exception e){
+            if(e.getMessage().equals("No Solution: Tableau got repeated too many times"))
+                assertFalse(false);
+            else
+                assertFalse(true);
+        }
     }
 }

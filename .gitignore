@@ -3,3 +3,10 @@
 .DS_Store
 Linear-And-Integer-Programming/target/
 *.iml
+Linear-And-Integer-Programming.zip
+*.aux
+*.log
+*.fls
+*.pyg
+*.gz
+*.fdb_latexmk

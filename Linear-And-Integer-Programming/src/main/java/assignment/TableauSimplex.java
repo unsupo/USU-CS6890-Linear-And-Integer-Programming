@@ -21,16 +21,30 @@ public class TableauSimplex {
         System.out.println(getMatrixString(
                 TableauSimplex.solveSimplexTableau(
                         new double[][]{
-                                {400,600,1,0,0,0,9200},
-                                {200,100,0,1,0,0,2400},
-                                {100,0,0,0,1,0,1500},
-                                {0,150,0,0,0,1,2100},
-                                {-2,-4,0,0,0,0,0}
+                                {4,1,1,0,300},
+                                {2,1,0,1,160},
+                                {-.25,-.1,0,0,0}
                         }
                 ),new String[][]{
-                        {"p", "g", "s1", "s2","s3","s4", "P"},
-                        {"poppy seed cake", "german chocolate cake","Profit", "flour","butter","poppy seeds","chocolate"}
+                        {"Large", "Small", "s1", "s2", "P"},
+                        {"Dough", "Bran","Profit"}
                 }));
+//        double d = Double.MIN_VALUE;
+//        int dough = 160;
+//        while(true){
+//            Ratio[][] tableau = TableauSimplex.solveSimplexTableau(
+//                    new double[][]{
+//                            {4, 1, 1, 0, 300},
+//                            {2, 1, 0, 1, dough++},
+//                            {-.25, -.1, 0, 0, 0}
+//                    }
+//            );
+//            double q;
+//            if((q=tableau[tableau.length-1][tableau[0].length-1].getDoubleValue()) <= d)
+//                break;
+//            d = q;
+//        }
+//        System.out.println("Bran max with dough 160 is: "+(dough-1));
     }
 
     private static void printMatrix(double[][] doubles) {

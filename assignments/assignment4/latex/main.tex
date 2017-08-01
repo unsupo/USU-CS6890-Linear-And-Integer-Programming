@@ -1,8 +1,8 @@
 \documentclass[11pt,a4paper,openany]{report}
 
-\title{CS6890 HW03}
+\title{CS6890 HW04}
 \author{Jonathan Arndt }
-\date{July 24 2017}
+\date{July 31 2017}
 
 \usepackage{amsmath,mathtools}
 \usepackage{systeme}
@@ -10,6 +10,7 @@
 \usepackage{newunicodechar}
 \usepackage{amsmath}
 \usepackage[english]{babel}
+\usepackage{listings}
 
 
 %% the first is the “unknown minus” (U+2212), the second is a hyphen
@@ -28,111 +29,250 @@
 
 \maketitle
 
-\section*{Problem 1}
-See MatrixSimplex.java
+\tableofcontents
+\newpage
+\section{Problems}
+\subsection{Problem 1}
+See TableauSimplex.java attached.
+
+\subsection{Problem 2}
+Utilizes TableauSimplex.java
 \begin{verbatim}
-  new MatrixSimplex(new String[][]{
-                  {"x1", "x2", "x3", "s1", "s2", "P"},
-                  {"x1", "x3", "P"}
-          },new int[][]{
-                  {2,3,2,1,0,0},
-                  {1,1,2,0,1,0}
-          },new int[]{1000,800},
-                  new int[]{-7,-8,-10,0,0,1}).doSimplex();
+2000acre
+A and B crops
+A: 1 person-day of labor and $90 of capital for each acre planted
+B: 2 person-day of labor and $60 of capital for each acre planted
+
+A produces $170 revenue/acre
+B produces $190 revenue/acre
+
+maximize 170A+190B
+A:  1+2   <= 3000
+B:  90+60 <= 150000
+
+System.out.println(
+  getMatrixString(
+      TableauSimplex.solveSimplexTableau(
+              new double[][]{
+                  {1,2,1,0,3000},
+                  {90,60,0,1,150000},
+                  {-170,-190,0,0,0}
+              }
+            ),new String[][]{
+                  {"x1", "x2", "s1", "s2", "P"},
+                  {"Crop A", "Crop B","Profit"}
+        })
+  );
+
+Produces this output:
+
+        x1  x2  s1     s2      |  P
+Crop A  0   1   3/4    -1/120  |  1000
+Crop B  1   0   -1/2   1/60    |  1000
+-------------------------------------------
+Profit  0   0   115/2  5/4     |  360000
+
 \end{verbatim}
-\\\\
-Example output for this problem is
+\subsubsection{Part 1.}
 \begin{verbatim}
-x1 = 200.0
-x3 = 300.0
-P = 4400.0
-s2 = 0.0
-s1 = 0.0
-x2 = 0.0
+100 more person-days:
+
+System.out.println(
+  getMatrixString(
+      TableauSimplex.solveSimplexTableau(
+              new double[][]{
+                  {1,2,1,0,3100},
+                  {90,60,0,1,150000},
+                  {-170,-190,0,0,0}
+              }
+            ),new String[][]{
+                  {"x1", "x2", "s1", "s2", "P"},
+                  {"Crop A", "Crop B","Profit"}
+        })
+  );
+
+Produces this output:
+
+        x1  x2  s1     s2      |  P
+Crop A  0   1   3/4    -1/120  |  1075
+Crop B  1   0   -1/2   1/60    |  950
+-------------------------------------------
+Profit  0   0   115/2  5/4     |  365750
 \end{verbatim}
 
-\section*{Problem 2}
-No solution
+\subsubsection{Part 2.}
+\begin{verbatim}
+$100 more available capital
 
-\section*{Problem 3}
-\begin{verbatim}
-  new MatrixSimplex(new String[][]{
-                {"x1", "x2", "s1", "s2", "z"},
-                {"x1", "x2", "z"}
-        },new int[][]{
-                {2,3,1,0},
-                {4,3,0,1}
-        },new int[]{72,108},
-                new int[]{-10,-9,0,0,0}).doSimplex();
+System.out.println(
+  getMatrixString(
+      TableauSimplex.solveSimplexTableau(
+              new double[][]{
+                  {1,2,1,0,3000},
+                  {90,60,0,1,150100},
+                  {-170,-190,0,0,0}
+              }
+            ),new String[][]{
+                  {"x1", "x2", "s1", "s2", "P"},
+                  {"Crop A", "Crop B","Profit"}
+        })
+  );
+
+Produces this output:
+
+        x1  x2  s1     s2      |  P
+Crop A  0   1   3/4    -1/120  |  6445/6
+Crop B  1   0   -1/2   1/60    |  2855/3
+-------------------------------------------
+Profit  0   0   115/2  5/4     |  365875
 \end{verbatim}
-\\\\
-Example output for this problem is
+
+\subsubsection{Part 3.}
+Baseline:                     360000\\
+Increase person-hours by 100: 365750\\
+Increase capital by \$100:    365875\\
+
+
+
+\subsection{Problem 3}
+See TableauSimplex.java
 \begin{verbatim}
-x1 = 12.0
-x2 = 18.0
-P = 288.0
-s2 = 0.0
-s1 = 0.0
+Large and Small muffins
+Large: 4oz dough, 2oz bran
+Small: 1oz dough, 1oz bran
+300oz dough, 160oz bran
+
+maximize .25L+.1S
+4+1<=300
+2+1<=160
+
+System.out.println(getMatrixString(
+    TableauSimplex.solveSimplexTableau(
+            new double[][]{
+                {4,1,1,0,300},
+                {2,1,0,1,160},
+                {-.25,-.1,0,0,0}
+            }
+    ),new String[][]{
+            {"x1", "x2", "s1", "s2", "P"},
+            {"Large", "Small","Profit"}
+    }));
+
+Results in:
+        x1  x2  s1    s2    |  P
+Large   1   0   1/2   -1/2  |  70
+Small   0   1   -1    2     |  20
+--------------------------------------
+Profit  0   0   1/40  3/40  |  39/2
+\end{verbatim}
+\subsubsection{Part 1.}
+\begin{verbatim}
+double d = Double.MIN_VALUE;
+int bran = 300;
+while(true){
+    Ratio[][] tableau = TableauSimplex.solveSimplexTableau(
+            new double[][]{
+                    {4, 1, 1, 0, bran++},
+                    {2, 1, 0, 1, 160},
+                    {-.25, -.1, 0, 0, 0}
+            }
+    );
+    double q;
+    if((q=tableau[tableau.length-1][tableau[0].length-1].getDoubleValue()) <= d)
+        break;
+    d = q;
+}
+System.out.println("Bran max with dough 160 is: "+(bran-1));
+
+Results in:
+Bran max with dough 160 is: 321
+\end{verbatim}
+\subsubsection{Part 2.}
+\begin{verbatim}
+double d = Double.MIN_VALUE;
+int dough = 160;
+while(true){
+    Ratio[][] tableau = TableauSimplex.solveSimplexTableau(
+            new double[][]{
+                    {4, 1, 1, 0, 300},
+                    {2, 1, 0, 1, dough++},
+                    {-.25, -.1, 0, 0, 0}
+            }
+    );
+    double q;
+    if((q=tableau[tableau.length-1][tableau[0].length-1].getDoubleValue()) <= d)
+        break;
+    d = q;
+}
+System.out.println("Bran max with dough 160 is: "+(dough-1));
+
+Results in:
+Bran max with dough 160 is: 301
+
+\end{verbatim}
+
+\subsection{Problem 4}
+See TableauSimplex.java
+\begin{verbatim}
+250mg of Calcium
+500mg of phosphorous
+9mg of iron
+apples,orances,bannanas
+
+minimize calories
+
+minimize 60a+50o+90b
+calcium:      10a+40o+60b = 250
+phosphorous:  10a+20o+30b = 500
+iron:         .3a+.2o+.6b = 9
+
+10a+40o+60b <= 250
+-10a-40o-60b <= 250
+10a+20o+30b <= 500
+-10a-20o-30b <= 500
+.3a+.2o+.6b <= 9
+-.3a-.2o-.6b <= 9
+
+
+System.out.println(getMatrixString(
+    TableauSimplex.solveSimplexTableau(
+            new double[][]{
+                    {10,40,60,1,0,0,0,0,0,250},
+                    {-10,-40,-60,0,1,0,0,0,0,-250},
+                    {10,20,30,0,0,1,0,0,0,500},
+                    {-10,-20,-30,0,0,0,1,0,0,-500},
+                    {.3,.2,.6,0,0,0,0,1,0,9},
+                    {-.3,-.2,-.6,0,0,0,0,0,1,-9},
+                    {-60,-50,-90,0,0,0,0,0,0,0}
+            }
+    ),new String[][]{
+            {"Apples", "Oranges", "Bananas", "s1","s2","s3","s4","s5","s6", "P"},
+            {"Calcium", "-Calcium","Phosphorus","-Phosphorus","Iron","-Iron","Calories"}
+    }));
+
+Results in:
+             Apples  Oranges  Bananas  s1      s2  s3  s4  s5  s6  |  P
+Calcium      1       4        6        1/10    0   0   0   0   0   |  25
+-Calcium     0       0        0        1       1   0   0   0   0   |  0
+Phosphorus   0       -20      -30      -1      0   1   0   0   0   |  250
+-Phosphorus  0       20       30       1       0   0   1   0   0   |  -250
+Iron         0       -1       -6/5     -3/100  0   0   0   1   0   |  3/2
+-Iron        0       1        6/5      3/100   0   0   0   0   1   |  -3/2
+-----------------------------------------------------------------------------
+Calories     0       190      270      6       0   0   0   0   0   |  1500
+
+
+No Apples, 190 oranges and 270 bananas
+
 \end{verbatim}
 
 \newpage
-\section*{Problem 4}
-\begin{verbatim}
-maximize profit 3pas+4cargo
-steel     4p+5c   <= 20*16
-plastic   1p+3c   <= 15*16
-wood      8p+12c  <= 20*12
-          p,c >= 0
-
-
-new MatrixSimplex(new String[][]{
-        {"p", "c", "s1", "s2", "P"},
-        {"p", "c", "P"}
-},new int[][]{
-        {4,5,1,0,0},
-        {1,3,0,1,0},
-        {8,12,0,0,1}
-},new int[]{20*16,15*16,20*12},
-        new int[]{-3,-4,0,0,0,0}).doSimplex();
-
-Results in:
-
-p = 64.0
-c = 48.0
-P = 496.0
-s2 = 0.0
-s1 = 0.0
-\end{verbatim}
+\section{Source Code}
+\subsection{TableauSimplex.java}
+\lstinputlisting[language=Java]{../../../Linear-And-Integer-Programming/src/main/java/assignment/TableauSimplex.java}
 \newpage
-\section*{Problem 5}
-\begin{verbatim}
-flour       400p+600g <= 9200
-butter      200p+100g <= 2400
-poppy seeds 100p      <= 1500
-chocolate        150g <= 2100
+\subsection{Ratio.java}
+\lstinputlisting[language=Java]{../../../Linear-And-Integer-Programming/src/main/java/utilities/Ratio.java}
 
-2p+4g
-
-new MatrixSimplex(new String[][]{
-                {"p", "g", "s1", "s2","s3","s4", "P"},
-                {"poppy seed cake", "german chocolate cake","Profit", "flour","butter","poppy seeds","chocolate"}
-        },new int[][]{
-                {400,600,1,0,0,0},
-                {200,100,0,1,0,0},
-                {100,0,0,0,1,0},
-                {0,150,0,0,0,1}
-        },new int[]{9200,2400,1500,2100},
-                new int[]{-2,-4,0,0,0,0,0}).doSimplex();
-
-Results in:
-
-poppy seed cake = 2.0
-german chocolate cake = 600.0
-Profit = 1300.0
-flour = 14.0
-butter = 60.0
-poppy seeds = 0.0
-chocolate = 0.0
-\end{verbatim}
 
 \end{document}

@@ -156,13 +156,16 @@ public class MatrixSimplex {
      * cost  bT
      */
     public void doSimplex(){
+        System.out.println(getDoSimplexResults());
+    }
+    public String getDoSimplexResults(){
         double[][] tableau = createTableau();
         try {
             tableau = solveSimplexTableau(tableau);
         } catch (Exception e) {
             System.out.println("No Solution");
         }
-        printResults(tableau,coefficientMatrix);
+        return printResults(tableau,coefficientMatrix);
     }
 
     public double[][] createTableau() {
@@ -184,7 +187,7 @@ public class MatrixSimplex {
      *  [x1,x3,P]
      * ]
      */
-    private void printResults(double[][] tableau, String[][] coefficientMatrix) {
+    private String printResults(double[][] tableau, String[][] coefficientMatrix) {
         int v = tableau[0].length - 1, k = coefficientMatrix[0].length - 1;
         String[] c1 = coefficientMatrix[1], nc1 = new String[coefficientMatrix[0].length];
         Set<String> s = new HashSet<String>();
@@ -196,8 +199,10 @@ public class MatrixSimplex {
         for (int i = 0; i < c1.length; i++)
             nc1[i] = c1[i];
 
+        String ss = "";
         for (int i = 0; i < nc1.length; i++)
-            System.out.println(nc1[i]+" = "+(tableau.length - 1 < i ? 0 : tableau[i][v]));
+            ss+=(nc1[i]+" = "+(tableau.length - 1 < i ? 0 : tableau[i][v]))+"\n";
+        return ss;
     }
 
     /**

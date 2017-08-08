@@ -1,0 +1,21 @@
+Problem 1 (1/1) Yes the answer is correct.
+
+Problem 2 (1/2)
+This is not quite correct.
+The corner points for this problem are (0, 0), (0, 16), (12, 16), (18, 12), (27, 0).
+The optimal point is at (18, 12) and is equal to $288, not $277.
+
+Problem 3 (0/1)
+This is not correct.
+The problem has no solution, because the feasible region is not proper - it consists of two non-intersecting regions.
+
+Problem 4 (1/1) Very nice!
+
+Problem 5 (0.5/1)
+The solution to this problem is the segment 3x1 + 4x2 = 24 from (4, 3) to (6, 1.5).
+
+Problem 6 (1/1) Yes, the problem is unsolvable because maximization goes to infinity.
+
+Problem 7 (2/2) Yes!
+
+Problem 8 (1/1) Yes! 
